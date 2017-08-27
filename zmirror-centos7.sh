@@ -115,6 +115,9 @@ yum install -y epel-release
 type pip3.6 >/dev/null 2>&1
 if [ $? -ne 0 ]; then
 	echo "pip3 is not installed, start to install python3 and pip3"
+	yum -y install yum-utils
+	yum -y groupinstall development
+	yum -y install https://centos7.iuscommunity.org/ius-release.rpm
 	rpm -Uvh https://centos6.iuscommunity.org/ius-release.rpm
 	yum install -y python36u python36u-devel wget git curl openssl
 	yum groupinstall "Development tools" -y
@@ -127,7 +130,7 @@ pip3.6 list| grep Flask >/dev/null 2>&1 && pip3 list| grep requests >/dev/null 2
 if [ $? -ne 0 ]; then
 	echo "Python dependencies are not installed, start to install"
 	#pip3 install -U flask requests distro chardet cchardet fastcache lru-dict
-	pip3.6 install -U flask requests distro chardet cchardet fastcache lru-dict
+	#pip3.6 install -U flask requests distro chardet cchardet fastcache lru-dict
 	pip3.6 install -r https://github.com/aploium/zmirror/raw/master/requirements.txt
 fi
 
@@ -150,7 +153,7 @@ fi
 if [ ! -f /usr/lib64/python3.5/site-packages/mod_wsgi/server/mod_wsgi*.so ]; then
 	#必须手动添加下面一行，要不然找不到报错找不到apxs
 	export PATH=$PATH:/opt/rh/httpd24/root/usr/bin:/opt/rh/httpd24/root/usr/sbin
-	pip3 install mod_wsgi
+	pip3.6 install mod_wsgi
 	touch /opt/rh/httpd24/root/etc/httpd/conf.modules.d/00-wsgi.conf
 	echo "LoadModule wsgi_module /usr/lib64/python3.6/site-packages/mod_wsgi/server/mod_wsgi-py36.cpython-36m-x86_64-linux-gnu.so" > /opt/rh/httpd24/root/etc/httpd/conf.modules.d/00-wsgi.conf
 fi
