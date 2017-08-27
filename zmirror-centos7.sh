@@ -20,7 +20,8 @@
 #6. Zmirror的新加站点Apache站点配置，必须修改www-data为apache，还要修改变量APACHE_LOG_DIR为常量"/var/log/httpd24"
 #7. 手动添加了一个port.conf
 #8. add centos7 support
-#
+#9. http redirect not ready; find at apache vhost configure file at /opt/rh/httpd24/root/etc/httpd/ conf and conf.d
+#10 ipv6 not ready
 #
 #
 #############################################
