@@ -107,7 +107,7 @@ yum install -y epel-release
 type pip3 >/dev/null 2>&1
 if [ $? -ne 0 ]; then
 	echo "pip3 is not installed, start to install python3 and pip3"
-	rpm -Uvh https://centos6.iuscommunity.org/ius-release.rpm
+	rpm -Uvh https://centos7.iuscommunity.org/ius-release.rpm
 	yum install -y python35u python35u-devel wget git curl openssl
 	yum groupinstall "Development tools" -y
 	wget --no-check-certificate https://bootstrap.pypa.io/get-pip.py -O - | python3.5
