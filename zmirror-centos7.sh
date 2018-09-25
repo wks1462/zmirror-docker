@@ -13,7 +13,7 @@
 #7. 手动添加了一个port.conf
 #8. add centos7 support
 #9  install crontab, python3.5 python3.5dev
-#
+#10. port.conf 引起冲突，改名禁用
 #
 #
 #############################################
@@ -39,6 +39,7 @@ rpm -Uvh https://centos7.iuscommunity.org/ius-release.rpm
 yum install -y python35u python35u-devel wget git curl openssl
 yum groupinstall "Development tools" -y
 wget --no-check-certificate https://bootstrap.pypa.io/get-pip.py -O - | python3.5
+rm -rf /var/www
 #以下列表从这里获取的https://github.com/aploium/zmirror/tree/master/more_configs
 #列表9中原作者有一处拼写错误，thumblr，脚本仅在前面手动选择处改为tumblr。后续还是保持和原作者一直。
 cat >&2 <<-'EOF'
