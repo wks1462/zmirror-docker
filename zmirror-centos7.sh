@@ -30,7 +30,13 @@ if [ $(id -u) != "0" ]; then
     echo "Error: You must be root to run this script"
     exit 1
 fi
-
+#install dependencies
+yum -y install vixie-cron
+yum -y install crontabs
+rpm -Uvh https://centos7.iuscommunity.org/ius-release.rpm
+yum install -y python35u python35u-devel wget git curl openssl
+yum groupinstall "Development tools" -y
+wget --no-check-certificate https://bootstrap.pypa.io/get-pip.py -O - | python3.5
 #以下列表从这里获取的https://github.com/aploium/zmirror/tree/master/more_configs
 #列表9中原作者有一处拼写错误，thumblr，脚本仅在前面手动选择处改为tumblr。后续还是保持和原作者一直。
 cat >&2 <<-'EOF'
