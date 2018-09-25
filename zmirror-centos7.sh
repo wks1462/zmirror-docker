@@ -31,6 +31,8 @@ if [ $(id -u) != "0" ]; then
     exit 1
 fi
 #install dependencies
+\cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+yum install -y epel-release
 yum -y install vixie-cron
 yum -y install crontabs
 rpm -Uvh https://centos7.iuscommunity.org/ius-release.rpm
@@ -106,8 +108,7 @@ echo "You are ready to mirror \"${MIRROR_NAME}\" with the domain \"${DOMAIN}\""
 read -p "Press [Enter] key to continue, Press \"Ctrl + C\" to Quit..."
 
 
-\cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
-yum install -y epel-release
+
 
 #python35u-devel Development tools必须安装，要不然cchardet fastcache lru-dict三者都会安装失败。
 #Packages List  https://ius.io/Packages/
@@ -197,27 +198,27 @@ case "$num" in
 esac
 
 #certbot installation
-if [ ! -d "/etc/certbot" ]; then
-	yum install -y augeas-libs dialog libffi-devel mod_ssl openssl-devel python-devel python-pip python-tools python-virtualenv
-	git clone https://github.com/certbot/certbot.git --depth=1 /etc/certbot
-	iptables -I INPUT -m state --state NEW -m tcp -p tcp --dport 443 -j ACCEPT
-	iptables -I INPUT -m state --state NEW -m tcp -p tcp --dport 80 -j ACCEPT
-	service iptables save && service iptables restart
-fi
-service httpd24-httpd stop
-service httpd stop
-/etc/certbot/certbot-auto certonly -t --agree-tos --standalone -m your@gmail.com -d ${DOMAIN}
+#if [ ! -d "/etc/certbot" ]; then
+#	yum install -y augeas-libs dialog libffi-devel mod_ssl openssl-devel python-devel python-pip python-tools python-virtualenv
+#	git clone https://github.com/certbot/certbot.git --depth=1 /etc/certbot
+#	iptables -I INPUT -m state --state NEW -m tcp -p tcp --dport 443 -j ACCEPT
+#	iptables -I INPUT -m state --state NEW -m tcp -p tcp --dport 80 -j ACCEPT
+#	service iptables save && service iptables restart
+#fi
+#service httpd24-httpd stop
+#service httpd stop
+#/etc/certbot/certbot-auto certonly -t --agree-tos --standalone -m your@gmail.com -d ${DOMAIN}
 
 #SSL certification weekly renew script
-if [ ! -f "/etc/cron.weekly/zmirror-letsencrypt-renew.sh" ]; then
-	cat > /etc/cron.weekly/zmirror-letsencrypt-renew.sh<<-EOF
-	#!/bin/bash
-	cd /etc/certbot
-	/etc/certbot/certbot-auto renew -n --agree-tos --standalone --pre-hook "/usr/sbin/service httpd24-httpd stop" --post-hook "/usr/sbin/service httpd24-httpd start"
-	exit 0
-	EOF
-	chmod a+x /etc/cron.weekly/zmirror-letsencrypt-renew.sh
-fi
+#if [ ! -f "/etc/cron.weekly/zmirror-letsencrypt-renew.sh" ]; then
+#	cat > /etc/cron.weekly/zmirror-letsencrypt-renew.sh<<-EOF
+#	#!/bin/bash
+#	cd /etc/certbot
+#	/etc/certbot/certbot-auto renew -n --agree-tos --standalone --pre-hook "/usr/sbin/service httpd24-httpd stop" --post-hook "/usr/sbin/service httpd24-httpd start"
+#	exit 0
+#	EOF
+#	chmod a+x /etc/cron.weekly/zmirror-letsencrypt-renew.sh
+#fi
 
 cp /opt/rh/httpd24/root/etc/httpd/conf.d/apache2-https.conf.sample /opt/rh/httpd24/root/etc/httpd/conf.d/zmirror-${MIRROR_NAME}-https.conf
 sed -i "s/{{mirror_name}}/${MIRROR_NAME}/g" /opt/rh/httpd24/root/etc/httpd/conf.d/zmirror-${MIRROR_NAME}-https.conf
