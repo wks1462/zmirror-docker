@@ -211,15 +211,15 @@ esac
 #/etc/certbot/certbot-auto certonly -t --agree-tos --standalone -m your@gmail.com -d ${DOMAIN}
 
 #SSL certification weekly renew script
-#if [ ! -f "/etc/cron.weekly/zmirror-letsencrypt-renew.sh" ]; then
-#	cat > /etc/cron.weekly/zmirror-letsencrypt-renew.sh<<-EOF
-#	#!/bin/bash
-#	cd /etc/certbot
-#	/etc/certbot/certbot-auto renew -n --agree-tos --standalone --pre-hook "/usr/sbin/service httpd24-httpd stop" --post-hook "/usr/sbin/service httpd24-httpd start"
-#	exit 0
-#	EOF
-#	chmod a+x /etc/cron.weekly/zmirror-letsencrypt-renew.sh
-#fi
+if [ ! -f "/etc/cron.weekly/zmirror-letsencrypt-renew.sh" ]; then
+	cat > /etc/cron.weekly/zmirror-letsencrypt-renew.sh<<-EOF
+	#!/bin/bash
+	cd /etc/certbot
+	/etc/certbot/certbot-auto renew -n --agree-tos --standalone --pre-hook "/usr/sbin/service httpd24-httpd stop" --post-hook "/usr/sbin/service httpd24-httpd start"
+	exit 0
+	EOF
+	chmod a+x /etc/cron.weekly/zmirror-letsencrypt-renew.sh
+fi
 
 cp /opt/rh/httpd24/root/etc/httpd/conf.d/apache2-https.conf.sample /opt/rh/httpd24/root/etc/httpd/conf.d/zmirror-${MIRROR_NAME}-https.conf
 sed -i "s/{{mirror_name}}/${MIRROR_NAME}/g" /opt/rh/httpd24/root/etc/httpd/conf.d/zmirror-${MIRROR_NAME}-https.conf
