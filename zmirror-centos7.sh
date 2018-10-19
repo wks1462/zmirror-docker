@@ -14,7 +14,7 @@
 #8. add centos7 support
 #9  install crontab, python3.5 python3.5dev
 #10. port.conf 引起冲突，改名禁用
-#
+#11 Let's ssl not install, need manual install beforehand
 #
 #############################################
 PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
