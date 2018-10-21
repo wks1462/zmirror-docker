@@ -158,6 +158,7 @@ rm -rf /opt/rh/httpd24/root/etc/httpd/conf.d/autoindex.conf
 rm -rf /opt/rh/httpd24/root/etc/httpd/conf.d/ssl.conf
 rm -rf /opt/rh/httpd24/root/etc/httpd/conf.d/userdir.conf
 rm -rf /opt/rh/httpd24/root/etc/httpd/conf.d/welcome.conf
+mv opt/rh/httpd24/root/etc/httpd/conf.d/port.conf opt/rh/httpd24/root/etc/httpd/conf.d/port.conf.bak
 if [ ! -f "/opt/rh/httpd24/root/etc/httpd/conf.d/apache2-boilerplate.conf" ]; then
 	wget --no-check-certificate -O /opt/rh/httpd24/root/etc/httpd/conf.d/apache2-boilerplate.conf https://github.com/aploium/zmirror-onekey/raw/master/configs/apache2-boilerplate.conf
 	wget --no-check-certificate -O /opt/rh/httpd24/root/etc/httpd/conf.d/zmirror-http-redirection.conf https://github.com/aploium/zmirror-onekey/raw/master/configs/apache2-http.conf
